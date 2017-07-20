@@ -1,9 +1,14 @@
 React Airport Flights
+=====================
 
-To create the base skeleton application sue yeoman:
+To create the base skeleton application use yeoman
 
 > npm install -g yo generator-aspnetcore-spa
+
+then
+
 > cd some-empty-directory
+
 > yo aspnetcore-spa
 
 and 
