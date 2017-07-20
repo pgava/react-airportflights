@@ -1,58 +1,50 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using AirportFlights.Core.Models;
+using AirportFlights.Core.Data;
+using AirportFlights.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApplicationBasic.Controllers
+namespace AirportFlights.Controllers
 {
     [Route("api/[controller]")]
-    public class GateController : Controller
+    public class GateController : BaseApiController
     {
-        [HttpGet("[action]")]
-        public IEnumerable<Flight> GetAllFlights()
+        public GateController(IFlightDataService flightService) : base(flightService)
         {
-            return new List<Flight>
-            {
-                new Flight
-                {
-                    Id = 1,
-                    FlightNumber = "QA-12354",
-                    Arrival = DateTime.Now,
-                    Departure = DateTime.Now,
-                    Description = "Fly asd"
-                },
-                new Flight
-                {
-                    Id = 2,
-                    FlightNumber = "AL-h773b",
-                    Arrival = DateTime.Now,
-                    Departure = DateTime.Now,
-                    Description = "Aly htc"
-                }
-            };        
+        }
+
+        //[HttpGet("[action]")]
+        //public IEnumerable<GateViewModel> GetAllFlights()
+        //{
+        //    var gates = FlightService.GetAllFlights();
+        //    return gates.Select(g => TheModelFactory.Create(g));
+        //}
+
+        [HttpGet("[action]")]
+        public IEnumerable<FlightViewModel> GetAllFlights()
+        {
+            var gates = FlightService.GetAllFlights();
+            return gates.First().Flights.Select(f => TheModelFactory.Create(f));
         }
 
         [HttpGet("[action]")]
-        public Gate GetFlightsByGateId(int startDateIndex)
+        public IActionResult GetFlightsByGateId(int gid)
         {
-            return new Gate
+            try
             {
-                Id = 1,
-                Name = "Gate1",
-                Flights = new List<Flight>
+                var gate = FlightService.GetFlightsByGateId(gid);
+                if (gate == null)
                 {
-                    new Flight
-                    {
-                        Id = 1,
-                        FlightNumber = "asd",
-                        Arrival = DateTime.Now,
-                        Departure = DateTime.Now,
-                        Description = "addd"
-                    }
+                    return NotFound();
                 }
-            };
+
+                return new ObjectResult(gate);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
     }
 }

@@ -1,20 +1,15 @@
 ﻿using System;
-using AirportFlights.Core.Data;
 
-namespace AirportFlights.Core.Models
+namespace AirportFlights.Models
 {
-    public class Flight : IEntity
+    public class FlightViewModel
     {
-        public int Id { get; set; }
-
+        public string Url { get; set; }
         public int GateId { get; set; }
-
+        public int FlightId { get; set; }
         public string FlightNumber { get; set; }
-        public string Description { get; set; }
-
         public DateTime Arrival { get; set; }
         public DateTime Departure { get; set; }
-
         public bool IsCancel { get; set; }
     }
 }

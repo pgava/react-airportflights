@@ -47,9 +47,9 @@ namespace AirportFlights.Infra.Services
             CheckInputData(flight);
             CheckInputData(gate);
 
-            if (CanAddFlightToGate(flight, gate))
+            if (CanAddFlightToGate(flight, gate.Id))
             {
-                flight.Gate = gate;
+                flight.GateId = gate.Id;
                 UnitOfWork.Flights.Add(flight);
                 UnitOfWork.Commit();
 
@@ -64,9 +64,9 @@ namespace AirportFlights.Infra.Services
             CheckInputData(flight);
             CheckInputData(gate);
 
-            if (CanAddFlightToGate(flight, gate))
+            if (CanAddFlightToGate(flight, gate.Id))
             {
-                flight.Gate = gate;
+                flight.GateId = gate.Id;
                 UnitOfWork.Commit();
 
                 return true;
@@ -85,7 +85,7 @@ namespace AirportFlights.Infra.Services
                 return false;
             }
 
-            if (CanAddFlightToGate(flight, flightData.Gate))
+            if (CanAddFlightToGate(flight, flightData.GateId))
             {
                 flightData.Arrival = flight.Arrival;
                 flightData.Departure = flight.Departure;
@@ -97,9 +97,9 @@ namespace AirportFlights.Infra.Services
             return false;
         }
 
-        private bool CanAddFlightToGate(Flight flight, Gate gate)
+        private bool CanAddFlightToGate(Flight flight, int gateId)
         {
-            var flights = GetFlightsByGateId(gate.Id)
+            var flights = GetFlightsByGateId(gateId)
                 .Flights
                 .Where(f => f.Id != flight.Id)
                 .ToList();

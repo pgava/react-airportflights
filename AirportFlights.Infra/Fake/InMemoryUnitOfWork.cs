@@ -39,7 +39,7 @@ namespace AirportFlights.Infra.Fake
         {
             foreach (var gate in Gates.GetAll())
             {
-                gate.Flights = Flights.GetAll().Where(f => f.Gate.Id == gate.Id).OrderBy(f => f.Arrival);
+                gate.Flights = Flights.GetAll().Where(f => f.GateId == gate.Id).OrderBy(f => f.Arrival);
             }
 
             Committed = true;
@@ -71,7 +71,7 @@ namespace AirportFlights.Infra.Fake
                 new Flight
                 {
                     Id = 1,
-                    Gate = GateRepository()[0],
+                    GateId = GateRepository()[0].Id,
                     FlightNumber = "abc123",
                     IsCancel = false,
                     Arrival = new DateTime(2010, 1, 1, 11, 0, 0, DateTimeKind.Local),
@@ -80,7 +80,7 @@ namespace AirportFlights.Infra.Fake
                 new Flight
                 {
                     Id = 2,
-                    Gate = GateRepository()[0],
+                    GateId = GateRepository()[0].Id,
                     FlightNumber = "abc466",
                     IsCancel = false,
                     Arrival = new DateTime(2010, 1, 1, 12, 0, 0, DateTimeKind.Local),
@@ -89,7 +89,7 @@ namespace AirportFlights.Infra.Fake
                 new Flight
                 {
                     Id = 3,
-                    Gate = GateRepository()[0],
+                    GateId = GateRepository()[0].Id,
                     FlightNumber = "sdfg345",
                     IsCancel = false,
                     Arrival = new DateTime(2010, 1, 1, 16, 0, 0, DateTimeKind.Local),
@@ -98,7 +98,7 @@ namespace AirportFlights.Infra.Fake
                 new Flight
                 {
                     Id = 4,
-                    Gate = GateRepository()[1],
+                    GateId = GateRepository()[1].Id,
                     FlightNumber = "sdf567",
                     IsCancel = false,
                     Arrival = new DateTime(2010, 1, 1, 9, 0, 0),
@@ -107,7 +107,7 @@ namespace AirportFlights.Infra.Fake
                 new Flight
                 {
                     Id = 5,
-                    Gate = GateRepository()[1],
+                    GateId = GateRepository()[1].Id,
                     FlightNumber = "jki657",
                     IsCancel = false,
                     Arrival = new DateTime(2010, 1, 1, 17, 0, 0),
