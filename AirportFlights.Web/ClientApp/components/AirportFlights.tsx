@@ -9,22 +9,34 @@ class AirportFlights extends React.Component<AirportFlightsProps, void> {
     componentWillMount() {
         this.props.getAllFlights();
     }
+    componentWillReceiveProps(nextProps) {
+    }
 
-    handleUpdate(flight) {
-        alert(flight.flightNumber);
+    handleUpdate(flight) {        
+        //this.props.createFlight(flight);         
+        this.props.createFlight2();         
     }
     
     public render() {
         return <div>
-            <h1>___</h1>
+            <h1></h1>
             {this.renderGateTable()}
         </div>;
     }
 
     renderGateTable() {
         return <div className="col-md-12">
-            <div className="well well-lg ng-scope">
-            <table className="table table-striped">
+               {this.props.gates.map(gate =>
+                <div className="well well-lg" key={gate.gateId}>
+                    <h2>{gate.gateName}</h2>
+                        {this.renderFlightTable(gate.flights)}
+                </div>
+                )}
+        </div>;
+    }
+
+    renderFlightTable(flights) {
+        return <table className="table table-striped">
                    <thead>
                    <tr>
                        <th>Name</th>
@@ -34,20 +46,19 @@ class AirportFlights extends React.Component<AirportFlightsProps, void> {
                    </tr>
                    </thead>
                    <tbody>
-                {this.props.flights.map(flight =>
-                    <tr key={flight.id}>
+                   {flights.map(flight =>
+                        <tr key={flight.flightId}>
                         <td>{flight.flightNumber}</td>
                         <td>{flight.arrival}</td>
-                        <td>{flight.departure}</td>                        
+                        <td>{flight.departure}</td>
                         <td>
-                            <button type="button" onClick={() => this.handleUpdate(flight)} className="btn btn-info btn-sm">Update</button>
+                            <button type="button" onClick={() => this.handleUpdate(flight)
+                            } className="btn btn-info btn-sm">Update</button>
                         </td>
                     </tr>
-                )}
+                   )}
                    </tbody>
-               </table>
-            </div>
-        </div>;
+               </table>;
     }
 }
                      

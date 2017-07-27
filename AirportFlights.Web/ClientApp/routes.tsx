@@ -5,6 +5,7 @@ import Home from './components/Home';
 import FetchData from './components/FetchData';
 import Counter from './components/Counter';
 import AirportFlights from "./components/AirportFlights";
+import Flight from './components/Flight';
 
 export default <Route component={ Layout }>
     <Route path='/' components={{ body: Home }} />
@@ -13,6 +14,9 @@ export default <Route component={ Layout }>
         <Route path='(:startDateIndex)' /> { /* Optional route segment that does not affect NavMenu highlighting */ }
     </Route>
     <Route path='/airportflights' components={{ body: AirportFlights }} />
+    <Route path='/flight' components={{ body: Flight }} >
+        <Route path='(:flightId)' />
+    </Route>
 </Route>;
 
 // Enable Hot Module Replacement (HMR)

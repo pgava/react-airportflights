@@ -1,16 +1,22 @@
 import { createStore, applyMiddleware, compose, combineReducers, GenericStoreEnhancer } from 'redux';
 import thunk from 'redux-thunk';
-import { routerReducer } from 'react-router-redux';
+import { routerMiddleware, routerReducer } from 'react-router-redux';
+import {browserHistory} from 'react-router';
 import * as Store from './store';
 
 export default function configureStore(initialState?: Store.ApplicationState) {
+
+    const middleware = applyMiddleware(
+        routerMiddleware(browserHistory),
+        thunk
+    );
 
     // Build middleware. These are functions that can process the actions before they reach the store.
     const windowIfDefined = typeof window === 'undefined' ? null : window as any;
     // If devTools is installed, connect to it
     const devToolsExtension = windowIfDefined && windowIfDefined.devToolsExtension as () => GenericStoreEnhancer;
     const createStoreWithMiddleware = compose(
-        applyMiddleware(thunk),
+        middleware,
         devToolsExtension ? devToolsExtension() : f => f
     )(createStore);
 

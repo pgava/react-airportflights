@@ -1,12 +1,14 @@
 import * as WeatherForecasts from './WeatherForecasts';
 import * as Counter from './Counter';
 import * as AirportFlights from './AirportFlights';
+import * as Flight from './Flight';
 
 // The top-level state object
 export interface ApplicationState {
     counter: Counter.CounterState;
     weatherForecasts: WeatherForecasts.WeatherForecastsState;
     airportFlights: AirportFlights.AirportFlightsState;
+    flight: Flight.FlightState;
 };
 
 // Whenever an action is dispatched, Redux will update each top-level application state property using
@@ -15,7 +17,8 @@ export interface ApplicationState {
 export const reducers = {
     counter: Counter.reducer,
     weatherForecasts: WeatherForecasts.reducer,
-    airportFlights: AirportFlights.reducer
+    airportFlights: AirportFlights.reducer,
+    flight: Flight.reducer
 };
 
 // IF YOU CHANGE airportFlights -> airpotFlights THE SIDE EFFECT IS THAT THE STATE IS NOT BOUND

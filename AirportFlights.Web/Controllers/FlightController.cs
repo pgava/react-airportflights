@@ -1,4 +1,5 @@
 using System;
+using AirportFlights.Core.Data;
 using AirportFlights.Core.Models;
 using AirportFlights.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +9,11 @@ namespace AirportFlights.Controllers
     [Route("api/[controller]")]
     public class FlightController : BaseApiController
     {
-        [HttpPost("[action]")]
+        public FlightController(IFlightDataService flightService) : base(flightService)
+        {
+        }
+
+        [HttpPost]
         public IActionResult Create([FromBody]FlightViewModel flight)
         {
             try
@@ -31,8 +36,8 @@ namespace AirportFlights.Controllers
             }
         }
 
-        [HttpPut("[action]")]
-        public IActionResult Update(int fid, [FromBody]FlightViewModel flight)
+        [HttpPut("{fid}")]
+        public IActionResult UpdateFlight(int fid, [FromBody]FlightViewModel flight)
         {
 
             try
