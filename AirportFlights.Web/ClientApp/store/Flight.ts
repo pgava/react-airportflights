@@ -25,7 +25,7 @@ export interface Flight {
 // They do not themselves have any side-effects; they just describe something that is going to happen.
 // Use @typeName and isActionType for type detection that works even after serialization/deserialization.
 
-interface SaveFlightAction { type: 'SAVE_FLIGHT' }
+interface SaveFlightAction { type: 'SAVE_FLIGHT', flight: Flight, saved: boolean, error: string }
 interface SaveFlightDoneAction { type: 'SAVE_FLIGHT_DONE', flight: Flight, saved: boolean, error: string }
 
 // Declare a 'discriminated union' type. This guarantees that all references to 'type' properties contain one of the
@@ -58,7 +58,7 @@ export const actionCreators = {
                 dispatch({ type: 'SAVE_FLIGHT_DONE', flight: flight, saved: true, error: "" });
             });
         addTask(createFlight);
-        dispatch({ type: 'SAVE_FLIGHT' });
+        dispatch({ type: 'SAVE_FLIGHT', flight: flight, saved: false, error: "" });
     }
 };
 
