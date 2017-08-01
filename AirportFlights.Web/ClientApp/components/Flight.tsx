@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { ApplicationState }  from '../store';
 import * as FlightStore from '../store/Flight';
 
-type FlightProps = FlightStore.FlightState & typeof FlightStore.actionCreators;
+type FlightProps = FlightStore.FlightState & typeof FlightStore.actionCreators & { params: { flightId: string } };
 
 class Flight extends React.Component<FlightProps, FlightStore.FlightState> {
     state = {
@@ -19,6 +19,12 @@ class Flight extends React.Component<FlightProps, FlightStore.FlightState> {
         saved: false,
         error: ""
     };
+
+    componentWillMount() {
+        // This method runs when the component is first added to the page
+        let flightId = parseInt(this.props.params.flightId) || 0;
+        this.props.getFlight(flightId);
+    }
 
     componentWillReceiveProps(nextProps: FlightStore.FlightState): void {
         if (nextProps.flight !== null) {

@@ -21,13 +21,6 @@ namespace AirportFlights.Controllers
             return gates.Select(g => TheModelFactory.Create(g));
         }
 
-        //[HttpGet("[action]")]
-        //public IEnumerable<FlightViewModel> GetAllFlights()
-        //{
-        //    var gates = FlightService.GetAllFlights();
-        //    return gates.First().Flights.Select(f => TheModelFactory.Create(f));
-        //}
-
         [HttpGet("{gid}", Name = "GetFlightsByGateId")]
         public IActionResult GetFlightsByGateId(int gid)
         {

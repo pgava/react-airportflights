@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using AirportFlights.Core.Data;
 using AirportFlights.Core.Models;
 using AirportFlights.Models;
@@ -11,6 +13,13 @@ namespace AirportFlights.Controllers
     {
         public FlightController(IFlightDataService flightService) : base(flightService)
         {
+        }
+
+        [HttpGet]
+        public FlightViewModel GetFlightById([FromQuery]int id)
+        {
+            var flight = FlightService.GetFlightById(id);
+            return TheModelFactory.Create(flight);
         }
 
         [HttpPost]

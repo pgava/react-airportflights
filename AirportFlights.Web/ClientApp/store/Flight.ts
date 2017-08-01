@@ -27,10 +27,12 @@ export interface Flight {
 
 interface SaveFlightAction { type: 'SAVE_FLIGHT', flight: Flight, saved: boolean, error: string }
 interface SaveFlightDoneAction { type: 'SAVE_FLIGHT_DONE', flight: Flight, saved: boolean, error: string }
+interface GetFlightAction { type: 'GET_FLIGHT'}
+interface GetFlightDoneAction { type: 'GET_FLIGHT_DONE', flight: Flight, error: string }
 
 // Declare a 'discriminated union' type. This guarantees that all references to 'type' properties contain one of the
 // declared type strings (and not any other arbitrary string).
-type KnownAction = SaveFlightAction | SaveFlightDoneAction;
+type KnownAction = SaveFlightAction | SaveFlightDoneAction | GetFlightAction | GetFlightDoneAction;
 
 // ----------------
 // ACTION CREATORS - These are functions exposed to UI components that will trigger a state transition.
@@ -59,6 +61,15 @@ export const actionCreators = {
             });
         addTask(createFlight);
         dispatch({ type: 'SAVE_FLIGHT', flight: flight, saved: false, error: "" });
+    },
+    getFlight: (flightId: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        let fetchTask = fetch(`/api/flight?id=${flightId}`)
+            .then(response => response.json() as Promise<Flight>)
+            .then(data => {
+                dispatch({ type: 'GET_FLIGHT_DONE', flight: data, error: "" });
+            });
+        addTask(fetchTask);
+        dispatch({ type: 'GET_FLIGHT' });
     }
 };
 
@@ -69,9 +80,29 @@ const unloadedState: FlightState = { flight: null, saved: false, error: "" };
 export const reducer: Reducer<FlightState> = (state: FlightState, action: KnownAction) => {
     switch (action.type) {
         case 'SAVE_FLIGHT':
-            return { flight: state.flight, saved: false, error: "" };
+            return {
+                flight: Object.assign({}, state.flight),
+                saved: false,
+                error: ""
+            };
         case 'SAVE_FLIGHT_DONE':
-            return {flight: action.flight, saved: action.saved, error: action.error }
+            return {
+                flight: Object.assign({}, action.flight),
+                saved: action.saved,
+                error: action.error
+            }
+        case 'GET_FLIGHT':
+            return {
+                flight: Object.assign({}, state.flight),
+                saved: false,
+                error: ""
+            }
+        case 'GET_FLIGHT_DONE': 
+            return {
+                flight: Object.assign({}, action.flight),
+                saved: false,
+                error: ""
+            }
         default:
             // The following line guarantees that every action in the KnownAction union has been covered by a case above
             const exhaustiveCheck: never = action;
