@@ -14,7 +14,8 @@ class Flight extends React.Component<FlightProps, FlightStore.FlightState> {
             flightNumber: "",
             description: "",
             arrival: "",
-            departure: ""
+            departure: "",
+            isCancel: false
         },
         saved: false,
         error: ""

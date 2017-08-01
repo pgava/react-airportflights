@@ -73,10 +73,10 @@ namespace AirportFlights.Controllers
                         Arrival = flight.Arrival.ToLocalTime(),
                         Departure = flight.Departure.ToLocalTime(),
                         Id = flightToUpdate.Id,
-                        Description = flightToUpdate.Description,
-                        FlightNumber = flightToUpdate.FlightNumber,
-                        IsCancel = flightToUpdate.IsCancel,
-                        GateId = flightToUpdate.GateId
+                        GateId = flightToUpdate.GateId,
+                        Description = flight.Description,
+                        FlightNumber = flight.FlightNumber,
+                        IsCancel = flight.IsCancel
                     };
                     if (!FlightService.UpdateFlightTime(flightClone))
                     {

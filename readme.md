@@ -15,11 +15,11 @@ and
 
 > dotnet run
 
-For development mode
-> set ASPNETCORE_ENVIRONMENT=Development
+For development mode (powershell)
+> $Env:ASPNETCORE_ENVIRONMENT = "Development"
 
-For production mode
-> set ASPNETCORE_ENVIRONMENT=Production
+For production mode (powershell)
+> $Env:ASPNETCORE_ENVIRONMENT = "Production"
 
 To generate vendor files
 > webpack --config webpack.config.vendor.js

@@ -13,9 +13,9 @@ class AirportFlights extends React.Component<AirportFlightsProps, void> {
     }
 
     handleUpdate(flight) {        
-        this.props.goToFlight();         
+        this.props.goToFlight(flight.flightId);         
     }
-    
+
     public render() {
         return <div>
             <h1></h1>

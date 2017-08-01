@@ -18,6 +18,7 @@ export interface Flight {
     description: string;
     arrival: string;
     departure: string;
+    isCancel: boolean;
 }
 
 // -----------------
