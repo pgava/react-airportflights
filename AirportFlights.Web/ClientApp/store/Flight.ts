@@ -9,7 +9,7 @@ import * as types from '../actions/actionTypes';
 
 export interface FlightState {
     flight: Flight;
-    saved: boolean;
+    saving: boolean;
     error: string;
 }
 
@@ -18,8 +18,8 @@ export interface FlightState {
 // They do not themselves have any side-effects; they just describe something that is going to happen.
 // Use @typeName and isActionType for type detection that works even after serialization/deserialization.
 
-interface SaveFlightAction { type: typeof types.SAVE_FLIGHT, flight: Flight, saved: boolean, error: string }
-interface SaveFlightDoneAction { type: typeof types.SAVE_FLIGHT_DONE, flight: Flight, saved: boolean, error: string }
+interface SaveFlightAction { type: typeof types.SAVE_FLIGHT, flight: Flight, saving: boolean }
+interface SaveFlightDoneAction { type: typeof types.SAVE_FLIGHT_DONE, flight: Flight, saving: boolean, error: string }
 interface GetFlightAction { type: typeof types.GET_FLIGHT}
 interface GetFlightDoneAction { type: typeof types.GET_FLIGHT_DONE, flight: Flight, error: string }
 
@@ -31,16 +31,16 @@ type KnownAction = SaveFlightAction | SaveFlightDoneAction | GetFlightAction | G
 // ACTION CREATORS - These are functions exposed to UI components that will trigger a state transition.
 // They don't directly mutate state, but they can have external side-effects (such as loading data).
 
-export function createSaveFlightDoneAction(flight: Flight): SaveFlightDoneAction {
-    return { type: types.SAVE_FLIGHT_DONE, flight: flight, saved: true, error: "" };
+export function createSaveFlightDoneAction(flight: Flight, error: string): SaveFlightDoneAction {
+    return { type: types.SAVE_FLIGHT_DONE, flight: flight, saving: false, error: error };
 }
 
 export function createSaveFlightAction(flight: Flight): SaveFlightAction {
-    return { type: types.SAVE_FLIGHT, flight: flight, saved: false, error: "" };
+    return { type: types.SAVE_FLIGHT, flight: flight, saving: true};
 }
 
-export function createGetFlightDoneAction(data: Flight): GetFlightDoneAction {
-    return { type: types.GET_FLIGHT_DONE, flight: data, error: "" };
+export function createGetFlightDoneAction(data: Flight, error: string): GetFlightDoneAction {
+    return { type: types.GET_FLIGHT_DONE, flight: data, error: error };
 }
 
 export function createGetFlightAction(): GetFlightAction {
@@ -51,7 +51,7 @@ export const actionCreators = {
     saveFlight: (flight: Flight): AppThunkAction<KnownAction> => (dispatch, getState) => {
         let createFlight = FlightApi.saveFlight(flight)
             .then(() => {
-                dispatch(createSaveFlightDoneAction(flight));
+                dispatch(createSaveFlightDoneAction(flight, null));
             });
         addTask(createFlight);
         dispatch(createSaveFlightAction(flight));
@@ -60,7 +60,7 @@ export const actionCreators = {
         let fetchTask = FlightApi.getFlight(flightId)
             .then(response => response.json() as Promise<Flight>)
             .then(data => {
-                dispatch(createGetFlightDoneAction(data));
+                dispatch(createGetFlightDoneAction(data, null));
             });
         addTask(fetchTask);
         dispatch(createGetFlightAction());
@@ -69,33 +69,33 @@ export const actionCreators = {
 
 // ----------------
 // REDUCER - For a given state and action, returns the new state. To support time travel, this must not mutate the old state.
-const unloadedState: FlightState = { flight: null, saved: false, error: "" };
+const unloadedState: FlightState = { flight: null, saving: false, error: "" };
 
 export const reducer: Reducer<FlightState> = (state: FlightState, action: KnownAction) => {
     switch (action.type) {
         case types.SAVE_FLIGHT:
             return {
                 flight: Object.assign({}, state.flight),
-                saved: false,
+                saving: false,
                 error: ""
             };
         case types.SAVE_FLIGHT_DONE:
             return {
                 flight: Object.assign({}, action.flight),
-                saved: action.saved,
+                saving: action.saving,
                 error: action.error
             }
         case types.GET_FLIGHT:
             return {
                 flight: Object.assign({}, state.flight),
-                saved: false,
-                error: ""
+                saving: false,
+                error: "" 
             }
         case types.GET_FLIGHT_DONE: 
             return {
                 flight: Object.assign({}, action.flight),
-                saved: false,
-                error: ""
+                saving: false,
+                error: action.error
             }
         default:
             // The following line guarantees that every action in the KnownAction union has been covered by a case above

@@ -14,7 +14,7 @@ class Flight extends React.Component<FlightProps, FlightStore.FlightState> {
         this.state = {
             flight: Object.assign({}, props.flight),
             error: "",
-            saved: false
+            saving: false
         };
     }
 
@@ -32,7 +32,7 @@ class Flight extends React.Component<FlightProps, FlightStore.FlightState> {
     componentWillReceiveProps(nextProps: FlightStore.FlightState): void {
         if (nextProps.flight !== null) {
             this.state.flight = nextProps.flight;
-            this.state.saved = nextProps.saved;
+            this.state.saving = nextProps.saving;
             this.state.error = nextProps.error;            
         }
     }
@@ -47,7 +47,7 @@ class Flight extends React.Component<FlightProps, FlightStore.FlightState> {
         const field = event.target.name;
         let flight = Object.assign({}, this.state.flight);
         flight[field] = event.target.value;
-        return this.setState({ flight: flight, saved: this.state.saved, error:this.state.error});
+        return this.setState({ flight: flight, saving: this.state.saving, error:this.state.error});
     }
   
     createFlightForm = () => {
@@ -57,8 +57,8 @@ class Flight extends React.Component<FlightProps, FlightStore.FlightState> {
                 onChange={this.updateFlightState}
                 onSave={this.onSubmit}
                 flight={this.state.flight}
-                errors={this.state.error}
-                saving={this.state.saved}
+                error={this.state.error}
+                saving={this.state.saving}
             />
     </div>;
     };

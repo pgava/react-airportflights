@@ -1,7 +1,7 @@
 ﻿import * as React from 'react';
 import TextInput from './common/TextInput';
 
-const FlightForm = ({ flight, onSave, onChange, saving, errors }) => {
+const FlightForm = ({ flight, onSave, onChange, saving, error }) => {
     return (
         <form>
             <h1>Flight</h1>
@@ -11,7 +11,7 @@ const FlightForm = ({ flight, onSave, onChange, saving, errors }) => {
                 value={flight.flightNumber}
                 placeholder={"Flight Number"}
                 onChange={onChange}
-                error={errors.title} />
+                error={error} />
 
             <TextInput
                 name="description"
@@ -19,7 +19,7 @@ const FlightForm = ({ flight, onSave, onChange, saving, errors }) => {
                 value={flight.description}
                 placeholder={"Description"}
                 onChange={onChange}
-                error={errors.title} />
+                error={error} />
 
             <TextInput
                 name="arrival"
@@ -27,7 +27,7 @@ const FlightForm = ({ flight, onSave, onChange, saving, errors }) => {
                 value={flight.arrival}
                 placeholder={"Arrival"}
                 onChange={onChange}
-                error={errors.title} />
+                error={error} />
 
             <TextInput
                 name="departure"
@@ -35,7 +35,7 @@ const FlightForm = ({ flight, onSave, onChange, saving, errors }) => {
                 value={flight.departure}
                 placeholder={"Departure"}
                 onChange={onChange}
-                error={errors.title} />
+                error={error} />
 
             <input
                 type="submit"
