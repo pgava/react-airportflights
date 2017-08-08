@@ -1,7 +1,7 @@
 import { Action, Reducer } from 'redux';
 import { addTask } from 'domain-task';
 import { AppThunkAction } from './';
-import { FlightApi, Flight } from '../api/flightApi';
+import { FlightApi, Flight } from '../api/FlightApi';
 import * as types from '../actions/actionTypes';
 
 // -----------------
@@ -18,10 +18,10 @@ export interface FlightState {
 // They do not themselves have any side-effects; they just describe something that is going to happen.
 // Use @typeName and isActionType for type detection that works even after serialization/deserialization.
 
-interface SaveFlightAction { type: 'SAVE_FLIGHT', flight: Flight, saved: boolean, error: string }
-interface SaveFlightDoneAction { type: 'SAVE_FLIGHT_DONE', flight: Flight, saved: boolean, error: string }
-interface GetFlightAction { type: 'GET_FLIGHT'}
-interface GetFlightDoneAction { type: 'GET_FLIGHT_DONE', flight: Flight, error: string }
+interface SaveFlightAction { type: typeof types.SAVE_FLIGHT, flight: Flight, saved: boolean, error: string }
+interface SaveFlightDoneAction { type: typeof types.SAVE_FLIGHT_DONE, flight: Flight, saved: boolean, error: string }
+interface GetFlightAction { type: typeof types.GET_FLIGHT}
+interface GetFlightDoneAction { type: typeof types.GET_FLIGHT_DONE, flight: Flight, error: string }
 
 // Declare a 'discriminated union' type. This guarantees that all references to 'type' properties contain one of the
 // declared type strings (and not any other arbitrary string).
@@ -31,23 +31,39 @@ type KnownAction = SaveFlightAction | SaveFlightDoneAction | GetFlightAction | G
 // ACTION CREATORS - These are functions exposed to UI components that will trigger a state transition.
 // They don't directly mutate state, but they can have external side-effects (such as loading data).
 
+export function createSaveFlightDoneAction(flight: Flight): SaveFlightDoneAction {
+    return { type: types.SAVE_FLIGHT_DONE, flight: flight, saved: true, error: "" };
+}
+
+export function createSaveFlightAction(flight: Flight): SaveFlightAction {
+    return { type: types.SAVE_FLIGHT, flight: flight, saved: false, error: "" };
+}
+
+export function createGetFlightDoneAction(data: Flight): GetFlightDoneAction {
+    return { type: types.GET_FLIGHT_DONE, flight: data, error: "" };
+}
+
+export function createGetFlightAction(): GetFlightAction {
+    return { type: types.GET_FLIGHT };
+}
+
 export const actionCreators = {
     saveFlight: (flight: Flight): AppThunkAction<KnownAction> => (dispatch, getState) => {
         let createFlight = FlightApi.saveFlight(flight)
             .then(() => {
-                dispatch({ type: types.SAVE_FLIGHT_DONE, flight: flight, saved: true, error: "" });
+                dispatch(createSaveFlightDoneAction(flight));
             });
         addTask(createFlight);
-        dispatch({ type: types.SAVE_FLIGHT, flight: flight, saved: false, error: "" });
+        dispatch(createSaveFlightAction(flight));
     },
     getFlight: (flightId: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
         let fetchTask = FlightApi.getFlight(flightId)
             .then(response => response.json() as Promise<Flight>)
             .then(data => {
-                dispatch({ type: types.GET_FLIGHT_DONE, flight: data, error: "" });
+                dispatch(createGetFlightDoneAction(data));
             });
         addTask(fetchTask);
-        dispatch({ type: types.GET_FLIGHT });
+        dispatch(createGetFlightAction());
     }
 };
 
