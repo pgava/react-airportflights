@@ -1,6 +1,8 @@
 import { Action, Reducer } from 'redux';
-import { fetch, addTask } from 'domain-task';
+import { addTask } from 'domain-task';
 import { AppThunkAction } from './';
+import { FlightApi, Flight } from '../api/flightApi';
+import * as types from '../actions/actionTypes';
 
 // -----------------
 // STATE - This defines the type of data maintained in the Redux store.
@@ -9,16 +11,6 @@ export interface FlightState {
     flight: Flight;
     saved: boolean;
     error: string;
-}
-
-export interface Flight {
-    flightId: number;
-    gateId: number;
-    flightNumber: string;
-    description: string;
-    arrival: string;
-    departure: string;
-    isCancel: boolean;
 }
 
 // -----------------
@@ -41,36 +33,21 @@ type KnownAction = SaveFlightAction | SaveFlightDoneAction | GetFlightAction | G
 
 export const actionCreators = {
     saveFlight: (flight: Flight): AppThunkAction<KnownAction> => (dispatch, getState) => {
-        const headers = { 'Content-Type': 'application/json' };
-        let requestUrl = `/api/flight/${flight.flightId}`;
-        let method = 'PUT';
-        if (flight.flightId === 0) {
-            method = 'POST';
-            requestUrl = '/api/flight';
-        }
-        let bodyUrl = JSON.stringify(flight);
-
-        let createFlightReq = new Request(requestUrl,
-            {
-                method: method,
-                headers: headers,
-                body: bodyUrl
-            });
-        let createFlight = fetch(createFlightReq)
+        let createFlight = FlightApi.saveFlight(flight)
             .then(() => {
-                dispatch({ type: 'SAVE_FLIGHT_DONE', flight: flight, saved: true, error: "" });
+                dispatch({ type: types.SAVE_FLIGHT_DONE, flight: flight, saved: true, error: "" });
             });
         addTask(createFlight);
-        dispatch({ type: 'SAVE_FLIGHT', flight: flight, saved: false, error: "" });
+        dispatch({ type: types.SAVE_FLIGHT, flight: flight, saved: false, error: "" });
     },
     getFlight: (flightId: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
-        let fetchTask = fetch(`/api/flight?id=${flightId}`)
+        let fetchTask = FlightApi.getFlight(flightId)
             .then(response => response.json() as Promise<Flight>)
             .then(data => {
-                dispatch({ type: 'GET_FLIGHT_DONE', flight: data, error: "" });
+                dispatch({ type: types.GET_FLIGHT_DONE, flight: data, error: "" });
             });
         addTask(fetchTask);
-        dispatch({ type: 'GET_FLIGHT' });
+        dispatch({ type: types.GET_FLIGHT });
     }
 };
 
@@ -80,25 +57,25 @@ const unloadedState: FlightState = { flight: null, saved: false, error: "" };
 
 export const reducer: Reducer<FlightState> = (state: FlightState, action: KnownAction) => {
     switch (action.type) {
-        case 'SAVE_FLIGHT':
+        case types.SAVE_FLIGHT:
             return {
                 flight: Object.assign({}, state.flight),
                 saved: false,
                 error: ""
             };
-        case 'SAVE_FLIGHT_DONE':
+        case types.SAVE_FLIGHT_DONE:
             return {
                 flight: Object.assign({}, action.flight),
                 saved: action.saved,
                 error: action.error
             }
-        case 'GET_FLIGHT':
+        case types.GET_FLIGHT:
             return {
                 flight: Object.assign({}, state.flight),
                 saved: false,
                 error: ""
             }
-        case 'GET_FLIGHT_DONE': 
+        case types.GET_FLIGHT_DONE: 
             return {
                 flight: Object.assign({}, action.flight),
                 saved: false,
