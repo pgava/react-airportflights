@@ -54,8 +54,12 @@ export const actionCreators = {
         addTask(fetchTask); 
         dispatch({ type: 'GET_ALL_FLIGHTS'});
     }, 
-    goToFlight: (id: number) => (dispatch, getState) => {
-        dispatch(push(`/flight/${id}`));
+    goToFlight: (flightId: number, gateId?: number) => (dispatch, getState) => {
+        if (flightId !== 0) {
+            dispatch(push(`/flight/${flightId}`));
+        } else {
+            dispatch(push(`/flight?gateId=${gateId}`));
+        }
     }
 
 };
