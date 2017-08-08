@@ -1,4 +1,4 @@
-import { Action, Reducer } from 'redux';
+import { Reducer } from 'redux';
 import { addTask } from 'domain-task';
 import { AppThunkAction } from './';
 import { FlightApi, Flight } from '../api/FlightApi';
