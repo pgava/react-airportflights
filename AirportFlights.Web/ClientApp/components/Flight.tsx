@@ -43,10 +43,10 @@ class Flight extends React.Component<FlightProps, FlightStore.FlightState> {
         this.props.saveFlight(this.state.flight);
     };
 
-    updateFlightState(event) {
-        const field = event.target.name;
+    updateFlightState = e => {
+        const field = e.target.name;
         let flight = Object.assign({}, this.state.flight);
-        flight[field] = event.target.value;
+        flight[field] = e.target.value;
         return this.setState({ flight: flight, saving: this.state.saving, error:this.state.error});
     }
   
