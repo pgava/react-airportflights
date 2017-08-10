@@ -39,7 +39,6 @@ class Flight extends React.Component<FlightProps, FlightStore.FlightState> {
     
     onSubmit = e => {
         e.preventDefault();
-        console.log(this.state);
         this.props.saveFlight(this.state.flight);
     };
 

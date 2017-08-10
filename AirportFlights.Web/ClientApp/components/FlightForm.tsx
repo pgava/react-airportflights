@@ -1,48 +1,57 @@
 ﻿import * as React from 'react';
 import TextInput from './common/TextInput';
+import {Flight} from '../api/FlightApi';
 
-const FlightForm = ({ flight, onSave, onChange, saving, error }) => {
+interface FligthFormParameters {
+    flight: Flight;
+    onSave: (e) => void;
+    onChange: (e) => void;
+    saving: boolean;
+    error: string;
+}
+
+const FlightForm = (parameters: FligthFormParameters) => {
     return (
         <form>
             <h1>Flight</h1>
             <TextInput
                 name="flightNumber"
                 label="Flight Number"
-                value={flight.flightNumber}
+                value={parameters.flight.flightNumber}
                 placeholder={"Flight Number"}
-                onChange={onChange}
-                error={error} />
+                onChange={parameters.onChange}
+                error={parameters.error} />
 
             <TextInput
                 name="description"
                 label="Description"
-                value={flight.description}
+                value={parameters.flight.description}
                 placeholder={"Description"}
-                onChange={onChange}
-                error={error} />
+                onChange={parameters.onChange}
+                error={parameters.error} />
 
             <TextInput
                 name="arrival"
                 label="Arrival"
-                value={flight.arrival}
+                value={parameters.flight.arrival}
                 placeholder={"Arrival"}
-                onChange={onChange}
-                error={error} />
+                onChange={parameters.onChange}
+                error={parameters.error} />
 
             <TextInput
                 name="departure"
                 label="Departure"
-                value={flight.departure}
+                value={parameters.flight.departure}
                 placeholder={"Departure"}
-                onChange={onChange}
-                error={error} />
+                onChange={parameters.onChange}
+                error={parameters.error} />
 
             <input
                 type="submit"
-                disabled={saving}
-                value={saving ? 'Saving...' : 'Save'}
+                disabled={parameters.saving}
+                value={parameters.saving ? 'Saving...' : 'Save'}
                 className="btn btn-primary"
-                onClick={onSave} />
+                onClick={parameters.onSave} />
 
         </form>
     );

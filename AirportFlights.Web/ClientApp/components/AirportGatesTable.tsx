@@ -1,6 +1,18 @@
 ﻿import * as React from 'react';
+import { Flight } from '../api/FlightApi';
+import { Gate } from '../api/GateApi';
 
-const AirportFlightsTable = ({ flights, onUpdate }) => {
+interface AirportFlightsTableParameters {
+    flights: Flight[];
+    onUpdate: (flight: Flight) => void;
+}
+
+interface AirportGatesTableParameters {
+    gates: Gate[];
+    onUpdate: (flight: Flight) => void;
+}
+
+const AirportFlightsTable = (parameters: AirportFlightsTableParameters) => {
     return <table className="table table-striped">
         <thead>
             <tr>
@@ -11,13 +23,13 @@ const AirportFlightsTable = ({ flights, onUpdate }) => {
             </tr>
         </thead>
         <tbody>
-            {flights.map(flight =>
+            {parameters.flights.map(flight =>
                     <tr key={flight.flightId}>
                         <td>{flight.flightNumber}</td>
                         <td>{flight.arrival}</td>
                         <td>{flight.departure}</td>
                         <td>
-                            <button type="button" onClick={() => onUpdate(flight)
+                        <button type="button" onClick={() => parameters.onUpdate(flight)
                             } className="btn btn-info btn-sm">Update</button>
                         </td>
                     </tr>
@@ -26,17 +38,17 @@ const AirportFlightsTable = ({ flights, onUpdate }) => {
     </table>;
 };
 
-const AirportGatesTable = ({ gates, onUpdate }) => {
+const AirportGatesTable = (parameters: AirportGatesTableParameters) => {
     return (
         <div>
             <h1></h1>
             <div className="col-md-12">
-                {gates.map(gate =>
+                {parameters.gates.map(gate =>
                     <div className="well well-lg" key={gate.gateId}>
                         <h2>{gate.gateName}</h2>
                         <AirportFlightsTable
                             flights={gate.flights}
-                            onUpdate={onUpdate} />
+                            onUpdate={parameters.onUpdate} />
                     </div>
                 )}
             </div>;
