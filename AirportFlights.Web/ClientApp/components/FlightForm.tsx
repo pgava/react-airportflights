@@ -1,13 +1,13 @@
 ﻿import * as React from 'react';
 import TextInput from './common/TextInput';
-import {Flight} from '../api/FlightApi';
+import {Flight, Error} from '../api/FlightApi';
 
 interface FligthFormParameters {
     flight: Flight;
     onSave: (e) => void;
     onChange: (e) => void;
     saving: boolean;
-    error: string;
+    error: Error;
 }
 
 const FlightForm = (parameters: FligthFormParameters) => {
@@ -20,7 +20,7 @@ const FlightForm = (parameters: FligthFormParameters) => {
                 value={parameters.flight.flightNumber}
                 placeholder={"Flight Number"}
                 onChange={parameters.onChange}
-                error={parameters.error} />
+                error={parameters.error.flightNumber} />
 
             <TextInput
                 name="description"
@@ -28,7 +28,7 @@ const FlightForm = (parameters: FligthFormParameters) => {
                 value={parameters.flight.description}
                 placeholder={"Description"}
                 onChange={parameters.onChange}
-                error={parameters.error} />
+                error={parameters.error.description} />
 
             <TextInput
                 name="arrival"
@@ -36,7 +36,7 @@ const FlightForm = (parameters: FligthFormParameters) => {
                 value={parameters.flight.arrival}
                 placeholder={"Arrival"}
                 onChange={parameters.onChange}
-                error={parameters.error} />
+                error={parameters.error.arrival} />
 
             <TextInput
                 name="departure"
@@ -44,7 +44,7 @@ const FlightForm = (parameters: FligthFormParameters) => {
                 value={parameters.flight.departure}
                 placeholder={"Departure"}
                 onChange={parameters.onChange}
-                error={parameters.error} />
+                error={parameters.error.departure} />
 
             <input
                 type="submit"

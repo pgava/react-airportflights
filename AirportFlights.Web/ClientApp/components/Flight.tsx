@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { ApplicationState }  from '../store';
 import * as FlightStore from '../store/Flight';
 import FlightForm from './FlightForm';
+import { Error } from '../api/FlightApi';
 
 type FlightProps = FlightStore.FlightState & typeof FlightStore.actionCreators & { params: { flightId: string, gateId: string } };
 
@@ -13,8 +14,8 @@ class Flight extends React.Component<FlightProps, FlightStore.FlightState> {
 
         this.state = {
             flight: Object.assign({}, props.flight),
-            error: "",
-            saving: false
+            saving: false,
+            error: { flightNumber: "", description: "", arrival: "", departure: "", general: ""}
         };
     }
 
@@ -33,7 +34,6 @@ class Flight extends React.Component<FlightProps, FlightStore.FlightState> {
         if (nextProps.flight !== null) {
             this.state.flight = nextProps.flight;
             this.state.saving = nextProps.saving;
-            this.state.error = nextProps.error;            
         }
     }
     
@@ -46,7 +46,7 @@ class Flight extends React.Component<FlightProps, FlightStore.FlightState> {
         const field = e.target.name;
         let flight = Object.assign({}, this.state.flight);
         flight[field] = e.target.value;
-        return this.setState({ flight: flight, saving: this.state.saving, error:this.state.error});
+        return this.setState({ flight: flight, saving: this.state.saving});
     }
   
     createFlightForm = () => {
@@ -56,8 +56,8 @@ class Flight extends React.Component<FlightProps, FlightStore.FlightState> {
                 onChange={this.updateFlightState}
                 onSave={this.onSubmit}
                 flight={this.state.flight}
-                error={this.state.error}
                 saving={this.state.saving}
+                error={this.state.error}
             />
     </div>;
     };

@@ -10,6 +10,14 @@ export interface Flight {
     isCancel: boolean;
 }
 
+export interface Error {
+    flightNumber: string;
+    description: string;
+    arrival: string;
+    departure: string;
+    general: string;
+}
+
 export class FlightApi {
     static saveFlight(flight: Flight) : Promise<any> {
         const headers = { 'Content-Type': 'application/json' };
