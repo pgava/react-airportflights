@@ -39,6 +39,11 @@ class Flight extends React.Component<FlightProps, FlightStore.FlightState> {
     
     onSubmit = e => {
         e.preventDefault();
+
+        if (!this.flightFormIsValid()) {
+            return;
+        }
+
         this.props.saveFlight(this.state.flight);
     };
 
@@ -46,9 +51,23 @@ class Flight extends React.Component<FlightProps, FlightStore.FlightState> {
         const field = e.target.name;
         let flight = Object.assign({}, this.state.flight);
         flight[field] = e.target.value;
-        return this.setState({ flight: flight, saving: this.state.saving});
+        return this.setState({ flight: flight, saving: this.state.saving, error: this.state.error});
     }
-  
+
+    flightFormIsValid() {
+        let formIsValid = true;
+        let errors: Error = { flightNumber: "", description: "", arrival: "", departure: "", general: "" };
+
+        if (this.state.flight.flightNumber.length < 5) {
+            errors.flightNumber = 'Flight Number must be at least 5 characters.';
+            formIsValid = false;
+        }
+
+        let flight = Object.assign({}, this.state.flight);
+        this.setState({ flight: flight, saving: false, error: errors });
+        return formIsValid;
+    }
+
     createFlightForm = () => {
         return <div className="col-md-12">
 

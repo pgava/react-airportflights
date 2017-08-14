@@ -70,7 +70,7 @@ export const actionCreators = {
             .then(data => {
                 dispatch(createGetFlightDoneAction(data));
             }).catch(error => {
-                dispatch(setAjaxErrorAction({ flightNumber: "", description: "", arrival: "", departure: "", general: error }));
+                dispatch(setAjaxErrorAction({ flightNumber: "", description: "", arrival: "", departure: "", general: error.message }));
                 throw (error);
             });
         addTask(fetchTask);
