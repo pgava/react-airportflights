@@ -15,7 +15,11 @@ export interface Error {
     description: string;
     arrival: string;
     departure: string;
-    general: string;
+}
+
+export interface Status {    
+    message: string;
+    type: string;
 }
 
 export class FlightApi {

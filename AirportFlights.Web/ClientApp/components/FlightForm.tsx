@@ -1,6 +1,7 @@
 ﻿import * as React from 'react';
 import TextInput from './common/TextInput';
-import {Flight, Error} from '../api/FlightApi';
+import StatusBox from './common/StatusBox';
+import {Flight, Error, Status} from '../api/FlightApi';
 
 interface FligthFormParameters {
     flight: Flight;
@@ -8,12 +9,16 @@ interface FligthFormParameters {
     onChange: (e) => void;
     saving: boolean;
     error: Error;
+    status: Status;
 }
 
 const FlightForm = (parameters: FligthFormParameters) => {
     return (
         <form>
             <h1>Flight</h1>
+            <StatusBox
+                message={parameters.status.message}
+                type={parameters.status.type} />
             <TextInput
                 name="flightNumber"
                 label="Flight Number"
