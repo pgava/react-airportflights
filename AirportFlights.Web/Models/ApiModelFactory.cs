@@ -44,9 +44,10 @@ namespace AirportFlights.Models
                 GateId = flight.GateId,
                 FlightId = flight.Id,
                 FlightNumber = flight.FlightNumber,
+                Description = string.IsNullOrWhiteSpace(flight.Description) ? "" : flight.Description,
                 IsCancel = flight.IsCancel,
-                Arrival = flight.Arrival,
-                Departure = flight.Departure
+                Arrival = flight.Arrival.ToString("MM/dd/yyyy HH:mm"),
+                Departure = flight.Departure.ToString("MM/dd/yyyy HH:mm")
             };
         }
 
@@ -57,8 +58,9 @@ namespace AirportFlights.Models
                 Id = flight.FlightId,
                 FlightNumber = flight.FlightNumber,
                 IsCancel = flight.IsCancel,
-                Arrival = new DateTime(2010, 1, 1, flight.Arrival.ToLocalTime().Hour, flight.Arrival.ToLocalTime().Minute, 0, DateTimeKind.Local),
-                Departure = new DateTime(2010, 1, 1, flight.Departure.ToLocalTime().Hour, flight.Departure.ToLocalTime().Minute, 0, DateTimeKind.Local)
+                Description = string.IsNullOrWhiteSpace(flight.Description) ? "" : flight.Description,
+                Arrival = DateTime.Parse(flight.Arrival),
+                Departure = DateTime.Parse(flight.Departure)
             };
         }
     }

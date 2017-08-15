@@ -41,7 +41,7 @@ const AirportFlightsTable = (parameters: AirportFlightsTableParameters) => {
 const AirportGatesTable = (parameters: AirportGatesTableParameters) => {
     return (
         <div>
-            <h1></h1>
+            <h1>Airport Gates</h1>
             <div className="col-md-12">
                 {parameters.gates.map(gate =>
                     <div className="well well-lg" key={gate.gateId}>

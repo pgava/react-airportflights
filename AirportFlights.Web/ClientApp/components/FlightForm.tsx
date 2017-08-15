@@ -25,6 +25,8 @@ const FlightForm = (parameters: FligthFormParameters) => {
                 value={parameters.flight.flightNumber}
                 placeholder={"Flight Number"}
                 onChange={parameters.onChange}
+                size={4}
+                disabled={true}
                 error={parameters.error.flightNumber} />
 
             <TextInput
@@ -33,6 +35,8 @@ const FlightForm = (parameters: FligthFormParameters) => {
                 value={parameters.flight.description}
                 placeholder={"Description"}
                 onChange={parameters.onChange}
+                size={12}
+                disabled={false}
                 error={parameters.error.description} />
 
             <TextInput
@@ -41,6 +45,8 @@ const FlightForm = (parameters: FligthFormParameters) => {
                 value={parameters.flight.arrival}
                 placeholder={"Arrival"}
                 onChange={parameters.onChange}
+                size={4}
+                disabled={false}
                 error={parameters.error.arrival} />
 
             <TextInput
@@ -49,17 +55,22 @@ const FlightForm = (parameters: FligthFormParameters) => {
                 value={parameters.flight.departure}
                 placeholder={"Departure"}
                 onChange={parameters.onChange}
+                size={4}
+                disabled={false}
                 error={parameters.error.departure} />
 
-            <input
-                type="submit"
-                disabled={parameters.saving}
-                value={parameters.saving ? 'Saving...' : 'Save'}
-                className="btn btn-primary"
-                onClick={parameters.onSave} />
-
+            <div className="form-group col-md-12">
+                <input
+                    type="submit"
+                    disabled={parameters.saving}
+                    value={parameters.saving ? 'Saving...' : 'Save'}
+                    className="btn btn-primary"
+                    onClick={parameters.onSave} />
+            </div>
         </form>
     );
 };
 
 export default FlightForm;
+
+

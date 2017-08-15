@@ -56,10 +56,15 @@ export function setAjaxErrorAction(status: Status): SetAjaxErrorAction {
 export const actionCreators = {
     saveFlight: (flight: Flight): AppThunkAction<KnownAction> => (dispatch, getState) => {
         let createFlight = FlightApi.saveFlight(flight)
-            .then(() => {
-                dispatch(createSaveFlightDoneAction(flight, {message: "Flight saved!", type:"info"}));
+            .then((response) => {
+                if (!response.ok) {
+                    dispatch(setAjaxErrorAction({ message: response.statusText, type: "warning" }));
+                    throw Error(response.statusText);
+                }
+            }).then(() => {
+                dispatch(createSaveFlightDoneAction(flight, { message: "Flight saved!", type:"success"}));
             }).catch(error => {
-                dispatch(setAjaxErrorAction({ message: error.message, type: "error" }));
+                dispatch(setAjaxErrorAction({ message: error.message, type: "warning" }));
                 throw (error);
             });
         addTask(createFlight);
@@ -71,7 +76,7 @@ export const actionCreators = {
             .then(data => {
                 dispatch(createGetFlightDoneAction(data));
             }).catch(error => {
-                dispatch(setAjaxErrorAction({ message: error.message, type: "error" }));
+                dispatch(setAjaxErrorAction({ message: error.message, type: "warning" }));
                 throw (error);
             });
         addTask(fetchTask);
@@ -92,7 +97,7 @@ export const reducer: Reducer<FlightState> = (state: FlightState, action: KnownA
                 flight: Object.assign({}, state.flight),
                 saving: true,
                 error: Object.assign({}, state.error),
-                status: Object.assign({}, state.status)
+                status: { message: "", type: "" }
             };
         case types.SAVE_FLIGHT_DONE:
             return {
@@ -106,7 +111,7 @@ export const reducer: Reducer<FlightState> = (state: FlightState, action: KnownA
                 flight: Object.assign({}, state.flight),
                 saving: true,
                 error: Object.assign({}, state.error),
-                status: Object.assign({}, state.status)
+                status: { message: "", type: "" }
             }
         case types.GET_FLIGHT_DONE: 
             return {

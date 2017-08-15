@@ -2,11 +2,11 @@ import * as React from 'react';
 
 const StatusBox = ({message, type}) => {
   let wrapperClass = 'form-group';
-  
-  return (
+  let alertType = `alert alert-${type}`;
+  return (      
     <div className={wrapperClass}>
       <div className="field">
-              {message && <div className="alert alert-error">{message}</div>}
+              {message && <div className={alertType}>{message}</div>}
       </div>
     </div>
   );

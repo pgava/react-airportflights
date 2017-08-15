@@ -50,7 +50,7 @@ class Flight extends React.Component<FlightProps, FlightStore.FlightState> {
             return;
         }
 
-        this.props.saveFlight(this.state.flight)
+        this.props.saveFlight(this.state.flight);
     };
 
     updateFlightState = e => {
@@ -71,16 +71,27 @@ class Flight extends React.Component<FlightProps, FlightStore.FlightState> {
             formIsValid = false;
         }
 
+        let arrivaltime = new Date(this.state.flight.arrival);
+        if (isNaN(arrivaltime.getFullYear())) {
+            errors.arrival = 'Arrival time must in a valide date/time format.';
+            formIsValid = false;
+        }
+
+        let departuretime = new Date(this.state.flight.departure);
+        if (isNaN(departuretime.getFullYear())) {
+            errors.departure = 'Departure time must in a valide date/time format.';
+            formIsValid = false;
+        }
+
         let flight = Object.assign({}, this.state.flight);
         let status = Object.assign({}, this.state.status);
         this.setState({ flight: flight, saving: false, error: errors, status: status });
         return formIsValid;
     }
 
-    createFlightForm = () => {
+    createFlightForm = () => {        
         return <div className="col-md-12">
-
-            <FlightForm                       
+            <FlightForm
                 onChange={this.updateFlightState}
                 onSave={this.onSubmit}
                 flight={this.state.flight}

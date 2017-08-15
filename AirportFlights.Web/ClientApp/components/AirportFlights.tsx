@@ -10,6 +10,7 @@ class AirportFlights extends React.Component<AirportFlightsProps, void> {
     componentWillMount() {
         this.props.getAllFlights();
     }
+
     componentWillReceiveProps(nextProps) {
     }
 

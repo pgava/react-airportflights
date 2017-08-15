@@ -33,7 +33,7 @@ namespace AirportFlights.Controllers
 
                 if (flightId == 0)
                 {
-                    return BadRequest();
+                    return StatusCode(500, "Couldn't create flight.");
                 }
 
                 var created = FlightService.GetFlightById(flightId);
@@ -48,7 +48,6 @@ namespace AirportFlights.Controllers
         [HttpPut("{fid}")]
         public IActionResult UpdateFlight(int fid, [FromBody]FlightViewModel flight)
         {
-
             try
             {
                 var flightToUpdate = FlightService.GetFlightById(fid);
@@ -59,7 +58,7 @@ namespace AirportFlights.Controllers
                     var gate = FlightService.GetFlightsByGateId(flight.GateId);
                     if (!FlightService.MoveFlightToGate(flightToUpdate, gate))
                     {
-                        return BadRequest();
+                        return StatusCode(500, "cannot move flight.");
                     }
                 }
                 if (flightToUpdate.IsCancel != flight.IsCancel)
@@ -70,8 +69,8 @@ namespace AirportFlights.Controllers
                 {
                     var flightClone = new Flight
                     {
-                        Arrival = flight.Arrival.ToLocalTime(),
-                        Departure = flight.Departure.ToLocalTime(),
+                        Arrival = DateTime.Parse(flight.Arrival),
+                        Departure = DateTime.Parse(flight.Departure),
                         Id = flightToUpdate.Id,
                         GateId = flightToUpdate.GateId,
                         Description = flight.Description,
@@ -80,7 +79,7 @@ namespace AirportFlights.Controllers
                     };
                     if (!FlightService.UpdateFlightTime(flightClone))
                     {
-                        return BadRequest();
+                        return StatusCode(500, "cannot save flight, check parameters are set correctly.");
                     }
                 }
                 return new NoContentResult();

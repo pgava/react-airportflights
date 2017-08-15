@@ -87,6 +87,7 @@ namespace AirportFlights.Infra.Services
 
             if (CanAddFlightToGate(flight, flightData.GateId))
             {
+                flightData.Description = flight.Description;
                 flightData.Arrival = flight.Arrival;
                 flightData.Departure = flight.Departure;
                 UnitOfWork.Commit();
