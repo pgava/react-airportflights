@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirportFlights", "AirportFlights.csproj", "{07B98FD1-606F-4119-8741-B5752FC8BE71}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirportFlights.Web", "AirportFlights.Web\AirportFlights.Web.csproj", "{07B98FD1-606F-4119-8741-B5752FC8BE71}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirportFlights.Core", "..\AirportFlights.Core\AirportFlights.Core.csproj", "{5DD2AED9-591F-4234-9600-C1634339E228}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirportFlights.Core", "AirportFlights.Core\AirportFlights.Core.csproj", "{5DD2AED9-591F-4234-9600-C1634339E228}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirportFlights.Infra", "..\AirportFlights.Infra\AirportFlights.Infra.csproj", "{A2A5F96E-A12E-4F43-9D94-9F50F69DD3DD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirportFlights.Infra", "AirportFlights.Infra\AirportFlights.Infra.csproj", "{A2A5F96E-A12E-4F43-9D94-9F50F69DD3DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

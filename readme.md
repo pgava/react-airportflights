@@ -21,6 +21,9 @@ For development mode (powershell)
 For production mode (powershell)
 > $Env:ASPNETCORE_ENVIRONMENT = "Production"
 
-To generate vendor files
+First time run:
+> yarn install
 > webpack --config webpack.config.vendor.js
+> webpack
+> dotnet run
 
