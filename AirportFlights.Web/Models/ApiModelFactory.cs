@@ -4,7 +4,7 @@ using AirportFlights.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 
-namespace AirportFlights.Models
+namespace AirportFlights.Web.Models
 {
     public interface IApiModelFactory
     {

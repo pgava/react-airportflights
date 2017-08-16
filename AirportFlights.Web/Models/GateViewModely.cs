@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AirportFlights.Models
+namespace AirportFlights.Web.Models
 {
     public class GateViewModel
     {

@@ -1,7 +1,7 @@
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 
-namespace AirportFlights
+namespace AirportFlights.Web
 {
     public class Program
     {

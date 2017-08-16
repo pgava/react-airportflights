@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AirportFlights.Models
+﻿namespace AirportFlights.Web.Models
 {
     public class FlightViewModel
     {

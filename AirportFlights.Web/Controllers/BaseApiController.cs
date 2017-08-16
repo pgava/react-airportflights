@@ -1,8 +1,8 @@
 ﻿using AirportFlights.Core.Data;
-using AirportFlights.Models;
+using AirportFlights.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AirportFlights.Controllers
+namespace AirportFlights.Web.Controllers
 {
     public class BaseApiController : Controller
     {
