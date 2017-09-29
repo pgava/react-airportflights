@@ -89,20 +89,23 @@ class Flight extends React.Component<FlightProps, FlightStore.FlightState> {
         return formIsValid;
     }
 
-    createFlightForm = () => {        
-        return <div className="col-md-12">
-            <FlightForm
-                onChange={this.updateFlightState}
-                onSave={this.onSubmit}
-                flight={this.state.flight}
-                saving={this.state.saving}
-                error={this.state.error}
-                status={this.state.status}
-            />
-    </div>;
+    createFlightForm = () => {
+        if (this.state.flight.flightNumber) {
+            return <div className="col-md-12">
+                       <FlightForm
+                           onChange={this.updateFlightState}
+                           onSave={this.onSubmit}
+                           flight={this.state.flight}
+                           saving={this.state.saving}
+                           error={this.state.error}
+                           status={this.state.status}/>
+                   </div>;
+        } else {
+            return <div className="col-md-12">Loading...</div>;
+        }
     };
 
-    public render() {
+    public render() {        
         return this.createFlightForm();
     }
 }

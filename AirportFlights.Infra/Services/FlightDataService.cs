@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AirportFlights.Core.Data;
 using AirportFlights.Core.Models;
 
@@ -20,6 +21,18 @@ namespace AirportFlights.Infra.Services
             return UnitOfWork.Gates.GetAll().ToList();
         }
 
+        public async Task<IEnumerable<Gate>> GetAllFlightsAsync()
+        {
+            return await UnitOfWork.Gates.GetAllAsync();
+        }
+
+        public async Task<Gate> GetFlightsByGateIdAsync(int gateId)
+        {
+            var res = await UnitOfWork.Gates.FindAsync(g => g.Id == gateId);
+
+            return res.FirstOrDefault();
+        }
+
         public Gate GetFlightsByGateId(int gateId)
         {
             return UnitOfWork.Gates.Find(g => g.Id == gateId).FirstOrDefault();
@@ -28,6 +41,13 @@ namespace AirportFlights.Infra.Services
         public Flight GetFlightById(int flightId)
         {
             return UnitOfWork.Flights.Find(f => f.Id == flightId).FirstOrDefault();
+        }
+
+        public async Task<Flight> GetFlightByIdAsync(int flightId)
+        {
+            var res = await UnitOfWork.Flights.FindAsync(f => f.Id == flightId);
+
+            return res.FirstOrDefault();
         }
 
         public void CancelFlight(Flight flight, bool cancelFlag)

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AirportFlights.Core.Data;
 using AirportFlights.Web.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -15,18 +16,18 @@ namespace AirportFlights.Web.Controllers
         }
 
         [HttpGet("[action]")]
-        public IEnumerable<GateViewModel> GetAllFlights()
+        public async Task<IEnumerable<GateViewModel>> GetAllFlights()
         {
-            var gates = FlightService.GetAllFlights();
+            var gates = await FlightService.GetAllFlightsAsync();
             return gates.Select(g => TheModelFactory.Create(g));
         }
 
         [HttpGet("{gid}", Name = "GetFlightsByGateId")]
-        public IActionResult GetFlightsByGateId(int gid)
+        public async Task<IActionResult> GetFlightsByGateId(int gid)
         {
             try
             {
-                var gate = FlightService.GetFlightsByGateId(gid);
+                var gate = await FlightService.GetFlightsByGateIdAsync(gid);
                 if (gate == null)
                 {
                     return NotFound();

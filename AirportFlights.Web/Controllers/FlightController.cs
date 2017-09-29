@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using AirportFlights.Core.Data;
 using AirportFlights.Core.Models;
 using AirportFlights.Web.Models;
@@ -21,11 +22,11 @@ namespace AirportFlights.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody]FlightViewModel flight)
+        public async Task<IActionResult> Create([FromBody]FlightViewModel flight)
         {
             try
             {
-                var theGate = FlightService.GetFlightsByGateId(flight.GateId);
+                var theGate = await FlightService.GetFlightsByGateIdAsync(flight.GateId);
                 var theFlight = TheModelFactory.Create(flight);
                 var flightId = FlightService.AddFlightToGate(theFlight, theGate);
 
@@ -44,16 +45,16 @@ namespace AirportFlights.Web.Controllers
         }
 
         [HttpPut("{fid}")]
-        public IActionResult UpdateFlight(int fid, [FromBody]FlightViewModel flight)
+        public async Task<IActionResult> UpdateFlight(int fid, [FromBody]FlightViewModel flight)
         {
             try
             {
-                var flightToUpdate = FlightService.GetFlightById(fid);
+                var flightToUpdate = await FlightService.GetFlightByIdAsync(fid);
                 if (flightToUpdate == null) return NotFound();
 
                 if (flightToUpdate.GateId != flight.GateId)
                 {
-                    var gate = FlightService.GetFlightsByGateId(flight.GateId);
+                    var gate = await FlightService.GetFlightsByGateIdAsync(flight.GateId);
                     if (!FlightService.MoveFlightToGate(flightToUpdate, gate))
                     {
                         return StatusCode(500, "cannot move flight.");
@@ -87,7 +88,5 @@ namespace AirportFlights.Web.Controllers
                 return BadRequest(ex);
             }
         }
-
-
     }
 }

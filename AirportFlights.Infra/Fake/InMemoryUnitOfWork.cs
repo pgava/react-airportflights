@@ -72,6 +72,7 @@ namespace AirportFlights.Infra.Fake
                 {
                     Id = 1,
                     GateId = GateRepository()[0].Id,
+                    Description = string.Empty,
                     FlightNumber = "abc123",
                     IsCancel = false,
                     Arrival = new DateTime(2010, 1, 1, 11, 0, 0, DateTimeKind.Local),
@@ -81,6 +82,7 @@ namespace AirportFlights.Infra.Fake
                 {
                     Id = 2,
                     GateId = GateRepository()[0].Id,
+                    Description = string.Empty,
                     FlightNumber = "abc466",
                     IsCancel = false,
                     Arrival = new DateTime(2010, 1, 1, 12, 0, 0, DateTimeKind.Local),
@@ -90,6 +92,7 @@ namespace AirportFlights.Infra.Fake
                 {
                     Id = 3,
                     GateId = GateRepository()[0].Id,
+                    Description = string.Empty,
                     FlightNumber = "sdfg345",
                     IsCancel = false,
                     Arrival = new DateTime(2010, 1, 1, 16, 0, 0, DateTimeKind.Local),
@@ -99,6 +102,7 @@ namespace AirportFlights.Infra.Fake
                 {
                     Id = 4,
                     GateId = GateRepository()[1].Id,
+                    Description = string.Empty,
                     FlightNumber = "sdf567",
                     IsCancel = false,
                     Arrival = new DateTime(2010, 1, 1, 9, 0, 0),
@@ -108,6 +112,7 @@ namespace AirportFlights.Infra.Fake
                 {
                     Id = 5,
                     GateId = GateRepository()[1].Id,
+                    Description = string.Empty,
                     FlightNumber = "jki657",
                     IsCancel = false,
                     Arrival = new DateTime(2010, 1, 1, 17, 0, 0),

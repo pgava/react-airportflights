@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 using AirportFlights.Core.Data;
 
 namespace AirportFlights.Infra.Fake
@@ -36,14 +39,24 @@ namespace AirportFlights.Infra.Fake
             _set.Remove(entity);
         }
 
-        public IQueryable<T> Find(System.Linq.Expressions.Expression<Func<T, bool>> pre)
+        public IEnumerable<T> Find(Expression<Func<T, bool>> pre)
         {
             return _queryableSet.Where(pre);
         }
 
-        public IQueryable<T> GetAll()
+        public IEnumerable<T> GetAll()
         {
             return _queryableSet;
+        }
+
+        public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> pre)
+        {
+            return await _queryableSet.Where(pre).ToListAsync();
+        }
+
+        public async Task<IEnumerable<T>> GetAllAsync()
+        {
+            return await _queryableSet.ToListAsync();
         }
     }
 }
